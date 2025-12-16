@@ -136,6 +136,7 @@ pub mod convert_to {
             loaded_addresses,
             return_data,
             compute_units_consumed,
+            ..
         } = meta;
         let err = match status {
             Ok(()) => None,
@@ -325,6 +326,7 @@ pub mod convert_from {
                 block.block_height.map(|wrapper| wrapper.block_height),
                 "failed to get block_height",
             )?),
+            num_partitions: None,
         })
     }
 
@@ -394,7 +396,9 @@ pub mod convert_from {
             VersionedMessage::V0(MessageV0 {
                 header,
                 account_keys: create_pubkey_vec(message.account_keys)?,
-                recent_blockhash: Hash::new(message.recent_blockhash.as_slice()),
+                recent_blockhash: Hash::new_from_array(
+                    message.recent_blockhash.as_slice().try_into().unwrap(),
+                ),
                 instructions: create_message_instructions(message.instructions)?,
                 address_table_lookups,
             })
@@ -402,7 +406,9 @@ pub mod convert_from {
             VersionedMessage::Legacy(Message {
                 header,
                 account_keys: create_pubkey_vec(message.account_keys)?,
-                recent_blockhash: Hash::new(message.recent_blockhash.as_slice()),
+                recent_blockhash: Hash::new_from_array(
+                    message.recent_blockhash.as_slice().try_into().unwrap(),
+                ),
                 instructions: create_message_instructions(message.instructions)?,
             })
         })
@@ -467,6 +473,7 @@ pub mod convert_from {
                 })
             },
             compute_units_consumed: meta.compute_units_consumed,
+            cost_units: None,
         })
     }
 

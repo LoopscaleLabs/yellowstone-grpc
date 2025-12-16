@@ -1,5 +1,6 @@
 use {
     crate::{config::ConfigPrometheus, filters::Filter, version::VERSION as VERSION_INFO},
+    agave_geyser_plugin_interface::geyser_plugin_interface::SlotStatus,
     futures::future::FutureExt,
     hyper::{
         server::conn::AddrStream,
@@ -8,7 +9,6 @@ use {
     },
     log::error,
     prometheus::{IntCounterVec, IntGauge, IntGaugeVec, Opts, Registry, TextEncoder},
-    solana_geyser_plugin_interface::geyser_plugin_interface::SlotStatus,
     solana_sdk::clock::Slot,
     std::{
         collections::{hash_map::Entry as HashMapEntry, HashMap},
@@ -278,6 +278,10 @@ pub fn update_slot_status(status: SlotStatus, slot: u64) {
             SlotStatus::Processed => "processed",
             SlotStatus::Confirmed => "confirmed",
             SlotStatus::Rooted => "finalized",
+            SlotStatus::FirstShredReceived => "first_shred_received",
+            SlotStatus::Completed => "completed",
+            SlotStatus::CreatedBank => "created_bank",
+            SlotStatus::Dead(_) => "dead",
         }])
         .set(slot as i64);
 }

@@ -5,12 +5,12 @@ use {
         prom::{self, DebugClientMessage, CONNECTIONS_TOTAL, MESSAGE_QUEUE_SIZE},
         version::GrpcVersionInfo,
     },
-    anyhow::Context,
-    log::{error, info},
-    solana_geyser_plugin_interface::geyser_plugin_interface::{
+    agave_geyser_plugin_interface::geyser_plugin_interface::{
         ReplicaAccountInfoV3, ReplicaBlockInfoV3, ReplicaEntryInfoV2, ReplicaTransactionInfoV2,
         SlotStatus,
     },
+    anyhow::Context,
+    log::{error, info},
     solana_sdk::{
         clock::{UnixTimestamp, MAX_RECENT_BLOCKHASHES},
         pubkey::Pubkey,
@@ -143,6 +143,10 @@ impl From<(u64, Option<u64>, SlotStatus)> for MessageSlot {
                 SlotStatus::Processed => CommitmentLevel::Processed,
                 SlotStatus::Confirmed => CommitmentLevel::Confirmed,
                 SlotStatus::Rooted => CommitmentLevel::Finalized,
+                SlotStatus::FirstShredReceived => CommitmentLevel::Processed,
+                SlotStatus::Completed => CommitmentLevel::Processed,
+                SlotStatus::CreatedBank => CommitmentLevel::Processed,
+                SlotStatus::Dead(_) => CommitmentLevel::Processed,
             },
         }
     }

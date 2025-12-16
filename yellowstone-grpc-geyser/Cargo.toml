@@ -1,6 +1,6 @@
 [package]
 name = "yellowstone-grpc-geyser"
-version = "1.14.2+solana.1.18.17"
+version = "1.14.2+solana.2.2.1"
 authors = { workspace = true }
 edition = { workspace = true }
 description = "Yellowstone gRPC Geyser Plugin"
@@ -31,7 +31,7 @@ log = { workspace = true }
 prometheus = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
-solana-geyser-plugin-interface = { workspace = true }
+agave-geyser-plugin-interface = { workspace = true }
 solana-logger = { workspace = true }
 solana-sdk = { workspace = true }
 solana-transaction-status = { workspace = true }
