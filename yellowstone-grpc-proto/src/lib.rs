@@ -473,7 +473,6 @@ pub mod convert_from {
                 })
             },
             compute_units_consumed: meta.compute_units_consumed,
-            cost_units: None,
         })
     }
 
